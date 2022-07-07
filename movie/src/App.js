@@ -1,5 +1,6 @@
-
+import MovieComponent from './components/MovieComponent'
 import styled from 'styled-components'
+import { useState } from 'react'
 const Container=styled.div`
 display:flex;
 flex-direction:column
@@ -53,7 +54,21 @@ const SearchInput = styled.input`
   align-items: center;
 `;
 
+const MovieListContainer=styled.div`
+display:flex;
+flex-direction:row;
+padding:30px;
+flex-wrap:wrap;
+justify-content:space-evenly;
+`
+
+
 function App() {
+  const[searchQuery, updateSearchQuery]=useState();
+  const onTextChange=(event)=>{
+    updateSearchQuery(event.target.value);
+  }
+
   return (
     <div className="App">
      <Container>
@@ -65,10 +80,16 @@ function App() {
         <SearchBox>
           <span>
         <SearchIcon src='./search.jpg'/>
-        <SearchInput placeholder='Search Movie' />
+        <SearchInput placeholder='Search Movie' value={searchQuery} onChange={onTextChange}/>
         </span>
         </SearchBox>
         </Header>
+        <MovieListContainer>
+          <MovieComponent />
+          <MovieComponent />
+          <MovieComponent />
+          <MovieComponent />
+        </MovieListContainer>
      </Container>
     </div>
   );
