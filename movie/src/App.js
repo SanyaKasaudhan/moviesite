@@ -1,6 +1,8 @@
 import MovieComponent from './components/MovieComponent'
 import styled from 'styled-components'
 import { useState } from 'react'
+import axios from 'react'
+const API_KEY="58c2fc5b";
 const Container=styled.div`
 display:flex;
 flex-direction:column
@@ -65,8 +67,19 @@ justify-content:space-evenly;
 
 function App() {
   const[searchQuery, updateSearchQuery]=useState();
+  const[timeoutId, updateTimeoutId]=useState();
+
+  const fetchData=async(searchString)=>
+  {
+   const res=await axios.get(`https://www.omdbapi.com/?s={$searchString}&apikey={API_KEY}`)
+  console.log(res);
+  }
+
   const onTextChange=(event)=>{
+    clearTimeout(timeoutId);
     updateSearchQuery(event.target.value);
+    const timeout = setTimeout(()=>fetchData(event.target.value),500)
+    updateTimeoutId(timeout);
   }
 
   return (
