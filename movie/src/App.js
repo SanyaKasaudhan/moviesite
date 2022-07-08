@@ -68,12 +68,14 @@ justify-content:space-evenly;
 function App() {
   const[searchQuery, updateSearchQuery]=useState();
   const[timeoutId, updateTimeoutId]=useState();
+  const[movieList, updateMovieList]=useState();
 
   const fetchData=async(searchString)=>
   {
    const res=await axios.get(`https://www.omdbapi.com/?s={$searchString}&apikey={API_KEY}`)
-  console.log(res);
-  }
+ 
+    updateMovieList(res.data.Search);
+}
 
   const onTextChange=(event)=>{
     clearTimeout(timeoutId);
@@ -97,11 +99,10 @@ function App() {
         </span>
         </SearchBox>
         </Header>
-        <MovieListContainer>
-          <MovieComponent />
-          <MovieComponent />
-          <MovieComponent />
-          <MovieComponent />
+        <MovieListContainer>{
+          movieList?.length ? movieList.map((movie,index)=>(
+          <MovieComponent key={index} movie={movie} />
+          )): "NNo movie"}
         </MovieListContainer>
      </Container>
     </div>
